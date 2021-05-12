@@ -1,4 +1,4 @@
-.basket .title {
+.basket > .title {
 	font-size: 2rem;
 	color: var(--main-color);
 	margin: 2rem 0;
@@ -10,6 +10,11 @@
 	color: var(--bs-danger);
 }
 
+.basket-item-card:hover {
+	cursor: pointer;
+	box-shadow: 0 10px 20px 0 rgba(0,0,0,.10);
+}
+
 .basket-item-card .image-container {
 	display: flex;
 	align-items: center;
@@ -18,6 +23,10 @@
 
 .basket-item-card .image {
 	height: 5rem;
+}
+
+.basket-item-card .title {
+	color: var(--bs-dark);
 }
 
 .basket-item-card .price {
