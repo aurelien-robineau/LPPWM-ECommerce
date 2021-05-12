@@ -15,7 +15,7 @@
     {% if categories|length > 0 %}
         <div class="row mb-4">
             {% for index, category in categories %}
-                {% if (index % 4) is same as(0) and index is not same as(0) %}
+                {% if (index % 3) is same as(0) and index is not same as(0) %}
                     </div><div class="row mb-4">
                 {% endif %}
                 <div class="col">

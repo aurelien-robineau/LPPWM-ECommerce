@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ category.label }}{% endblock %}
+
+{% block stylesheets %}
+    <link href="/resources/css/categories.css" rel="stylesheet"/>
+    <link href="/resources/css/products.css" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    <div class="category">
+        <h1 class="title">{{ category.label }}</h1>
+
+        {% if category.products|length > 0 %}
+            <div class="row mb-4">
+                {% for index, product in category.products %}
+                    {% if (index % 6) is same as(0) and index is not same as(0) %}
+                        </div><div class="row mb-4">
+                    {% endif %}
+                    <div class="col">
+                        {{ include('assets/productCard.html.twig', {'product': product}) }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h6>Aucun produit...</h6>
+        {% endif %}
+    </div>
+{% endblock %}
