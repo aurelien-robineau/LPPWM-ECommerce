@@ -1,0 +1,27 @@
+.basket .title {
+	font-size: 2rem;
+	color: var(--main-color);
+	margin: 2rem 0;
+}
+
+.basket .total-price {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: var(--bs-danger);
+}
+
+.basket-item-card .image-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.basket-item-card .image {
+	height: 5rem;
+}
+
+.basket-item-card .price {
+	font-size: 1.25rem;
+	font-weight: bold;
+	color: black;
+}
