@@ -78,7 +78,7 @@ class ProductCategory
      */
     public function getProducts(): Collection
     {
-        return $this->lignesPrescription;
+        return $this->products;
     }
 
     public function addProduct(Product $product): self

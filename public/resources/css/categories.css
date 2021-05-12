@@ -1,0 +1,10 @@
+.card.category-card {
+	height: 100%;
+	min-width: 15rem;
+}
+
+.card.category-card .bg-image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

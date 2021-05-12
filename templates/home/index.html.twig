@@ -2,6 +2,28 @@
 
 {% block title %}Accueil{% endblock %}
 
+{% block stylesheets %}
+    <link href="/resources/css/home.css" rel="stylesheet"/>
+    <link href="/resources/css/categories.css" rel="stylesheet"/>
+{% endblock %}
+
 {% block body %}
-    <h1>Bienvenue sur notre application de e-commerce !</h1>
+    <div class="home">
+        <h1 class="title">Bienvenue sur {{ app.request.server.get('APP_NAME') }} !</h1>
+    </div>
+
+    {% if categories|length > 0 %}
+        <div class="row mb-4">
+            {% for index, category in categories %}
+                {% if (index % 4) is same as(0) and index is not same as(0) %}
+                    </div><div class="row mb-4">
+                {% endif %}
+                <div class="col">
+                    {{ include('assets/categoryCard.html.twig', {'category': category}) }}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h6>Aucune catégorie...</h6>
+    {% endif %}
 {% endblock %}
