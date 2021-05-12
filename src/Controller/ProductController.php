@@ -21,4 +21,14 @@ class ProductController extends AbstractController
 			'product' => $product,
 		]);
 	}
+
+	/**
+	 * @Route("/{id}/add-to-basket", name="add_product_to_basket", methods={"POST"})
+	 */
+	public function addToBasket(Product $product): Response
+	{
+		return $this->render('product/show.html.twig', [
+			'product' => $product,
+		]);
+	}
 }
