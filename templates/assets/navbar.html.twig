@@ -62,6 +62,9 @@
 			{% if not is_granted('ROLE_ADMIN') %}
 				<a class="text-reset me-3" href="#">
 					<i class="fas fa-shopping-cart"></i>
+					{% if app.user.getBasket|length > 0 %}
+						<span class="badge rounded-pill badge-notification bg-danger">{{ app.user.getBasket|length }}</span>
+					{% endif %}
 				</a>
 			{% endif %}
 

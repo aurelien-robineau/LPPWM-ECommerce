@@ -29,7 +29,7 @@ class ProductController extends AbstractController
 	{
 		$this->denyAccessUnlessGranted('ROLE_USER');
 		$user = $this->getUser();
-		
+
 		if (!$user->hasProductInBasket($product)) {
 			$em = $this->getDoctrine()->getManager();
 
@@ -53,8 +53,11 @@ class ProductController extends AbstractController
 
 		$user = $this->getUser();
 		$basketItem = $user->getBasketItemFromProduct($product);
-		$user->removeItemFromBasket($basketItem);
-		$em->flush();
+
+		if (!is_null($basketItem)) {
+			$user->removeItemFromBasket($basketItem);
+			$em->flush();
+		}
 
 		return $this->render('product/show.html.twig', [
 			'product' => $product,
