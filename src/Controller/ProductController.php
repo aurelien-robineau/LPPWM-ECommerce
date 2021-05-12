@@ -27,6 +27,14 @@ class ProductController extends AbstractController
 	 */
 	public function addToBasket(Product $product): Response
 	{
+		$this->denyAccessUnlessGranted('ROLE_USER');
+
+		$em = $this->getDoctrine()->getManager();
+
+		$user = $this->getUser();
+		$user->addProductToBasket($product);
+		$em->flush();
+
 		return $this->render('product/show.html.twig', [
 			'product' => $product,
 		]);

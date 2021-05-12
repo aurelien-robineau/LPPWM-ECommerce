@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -48,6 +50,16 @@ class User implements UserInterface
      * @Assert\EqualTo(propertyPath="password", message="Vos mots de passe doivent être identiques.")
      */
     private $confirm_password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserBasket::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
+     */
+    private $basketItems;
+
+    public function __construct()
+    {
+        $this->basketItems = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -135,5 +147,36 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|UserBasket[]
+     */
+    public function getBasket(): Collection
+    {
+        return $this->basketItems;
+    }
+
+    public function addProductToBasket(Product $product): self
+    {
+        $basketItem = new UserBasket();
+        $basketItem->setUser($this);
+        $basketItem->setProduct($product);
+
+        $this->basketItems[] = $basketItem;
+
+        return $this;
+    }
+
+    public function removeItemFromBasket(UserBasket $basketItem): self
+    {
+        if ($this->basketItems->removeElement($basketItem)) {
+            // set the owning side to null (unless already changed)
+            if ($basketItem->getUser() === $this) {
+                $basketItem->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
