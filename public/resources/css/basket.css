@@ -34,3 +34,15 @@
 	font-weight: bold;
 	color: black;
 }
+
+.card.basket-item-card .in-stock {
+	color: var(--bs-success);
+}
+
+.card.basket-item-card .last-items {
+	color: var(--bs-warning);
+}
+
+.card.basket-item-card .unavailable {
+	color: var(--bs-danger);
+}
