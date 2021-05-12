@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories{% endblock %}
+
+{% block body %}
+    <div class="mt-5">
+        <h1 class="mb-3">Catégories</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>URL de l'image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product_category in product_categories %}
+                <tr>
+                    <td>{{ product_category.id }}</td>
+                    <td>{{ product_category.label }}</td>
+                    <td>{{ product_category.image }}</td>
+                    <td>
+                        <a href="{{ path('admin_product_category_show', {'id': product_category.id}) }}">Voir</a>
+                        <a href="{{ path('admin_product_category_edit', {'id': product_category.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucune catégorie</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a class="btn btn-primary" href="{{ path('admin_product_category_new') }}">Nouvelle catégorie</a>
+    </div>
+{% endblock %}

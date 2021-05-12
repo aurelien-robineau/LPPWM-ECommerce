@@ -6,6 +6,8 @@ use App\Repository\ProductCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ProductCategoryRepository::class)
@@ -21,11 +23,14 @@ class ProductCategory
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="2", minMessage="Le titre doit faire 2 caractères minimum.")
+     * @Assert\Length(max="255", maxMessage="Le titre doit faire 255 caractères maximum.")
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max="255", maxMessage="L'URL doit faire 255 caractères maximum.")
      */
     private $image;
 
