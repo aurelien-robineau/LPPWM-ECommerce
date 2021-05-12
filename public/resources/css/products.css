@@ -1,3 +1,19 @@
+.product .title {
+	margin-top: 2rem;
+	color: var(--main-color);
+}
+
+.product .image {
+	max-height: 50vh;
+	margin: auto;
+}
+
+.product .image-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .card.product-card {
 	height: 100%;
 	width: 15rem;
@@ -14,14 +30,14 @@
 	height: 200px;
 }
 
-.card.product-card .in-stock {
+.card.product-card .in-stock, .product .in-stock {
 	color: var(--bs-success);
 }
 
-.card.product-card .last-items {
+.card.product-card .last-items, .product .last-items {
 	color: var(--bs-warning);
 }
 
-.card.product-card .unavailable {
+.card.product-card .unavailable, .product .unavailable {
 	color: var(--bs-danger);
 }
