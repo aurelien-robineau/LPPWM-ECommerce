@@ -25,7 +25,7 @@ class SecurityController extends AbstractController
         if ($this->getUser()) {
             return $this->redirectToRoute('home');
         }
-        
+
         $user = new User();
 
         $form = $this->createForm(RegistrationType::class, $user);
@@ -37,7 +37,7 @@ class SecurityController extends AbstractController
             $user->setPassword($hash);
             $manager->persist($user);
             $manager->flush();
-            $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_login');
         }
         return $this->render('security/register.html.twig', [
             'form' => $form->createView()
