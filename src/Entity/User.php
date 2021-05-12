@@ -157,6 +157,28 @@ class User implements UserInterface
         return $this->basketItems;
     }
 
+    public function getBasketItemFromProduct(Product $product): ?UserBasket
+    {
+        foreach ($this->basketItems as $item) {
+            if ($item->getProduct()->getId() === $product->getId()) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    public function hasProductInBasket(Product $product): bool
+    {
+        foreach ($this->basketItems as $item) {
+            if ($item->getProduct()->getId() === $product->getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function addProductToBasket(Product $product): self
     {
         $basketItem = new UserBasket();

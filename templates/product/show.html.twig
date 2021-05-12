@@ -28,7 +28,11 @@
 				<div class="d-grid d-sm-block gap-2">
 					{% if product.quantity is not same as(0) %}
 						{% if app.user and not is_granted('ROLE_ADMIN') %}
-							{{ include('product/_add_to_basket_form.html.twig') }}
+							{% if not app.user.hasProductInBasket(product) %}
+								{{ include('product/_add_to_basket_form.html.twig') }}
+							{% else %}
+								{{ include('product/_remove_from_basket_form.html.twig') }}
+							{% endif %}
 						{% elseif app.user and is_granted('ROLE_ADMIN') %}
 							<button
 								class="btn btn-main btn-block-sm mt-4"

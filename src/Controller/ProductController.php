@@ -28,11 +28,32 @@ class ProductController extends AbstractController
 	public function addToBasket(Product $product): Response
 	{
 		$this->denyAccessUnlessGranted('ROLE_USER');
+		$user = $this->getUser();
+		
+		if (!$user->hasProductInBasket($product)) {
+			$em = $this->getDoctrine()->getManager();
+
+			$user->addProductToBasket($product);
+			$em->flush();
+		}
+
+		return $this->render('product/show.html.twig', [
+			'product' => $product,
+		]);
+	}
+
+	/**
+	 * @Route("/{id}/remove-from-basket", name="remove_product_from_basket", methods={"POST"})
+	 */
+	public function removeFromBasket(Product $product): Response
+	{
+		$this->denyAccessUnlessGranted('ROLE_USER');
 
 		$em = $this->getDoctrine()->getManager();
 
 		$user = $this->getUser();
-		$user->addProductToBasket($product);
+		$basketItem = $user->getBasketItemFromProduct($product);
+		$user->removeItemFromBasket($basketItem);
 		$em->flush();
 
 		return $this->render('product/show.html.twig', [
