@@ -1,0 +1,4 @@
+a.btn.btn-main, button.btn.btn-main {
+	color: white;
+	background-color: var(--main-color);
+}

@@ -1,0 +1,89 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!-- Container wrapper -->
+<div class="container">
+	<!-- Toggle button -->
+	<button
+		class="navbar-toggler"
+		type="button"
+		data-mdb-toggle="collapse"
+		data-mdb-target="#navbarSupportedContent"
+		aria-controls="navbarSupportedContent"
+		aria-expanded="false"
+		aria-label="Toggle navigation"
+	>
+		<i class="fas fa-bars"></i>
+	</button>
+
+	<!-- Collapsible wrapper -->
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<!-- Navbar brand -->
+		<a class="navbar-brand mt-2 mt-lg-0" href="#">
+			<img
+				src="/resources/img/icon.png"
+				height="45"
+				alt="DrumShop logo"
+				loading="lazy"
+			/>
+			<h1>{{ app.request.server.get('APP_NAME') }}</h1>
+		</a>
+		<!-- Left links -->
+		<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			<li class="nav-item">
+				<a class="nav-link" href="#">Contact</a>
+			</li>
+		</ul>
+		<!-- Left links -->
+	</div>
+	<!-- Collapsible wrapper -->
+
+	<!-- Right elements -->
+	<div class="d-flex align-items-center">
+		{% if not app.user %}
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="btn btn-main" href="{{ path('app_login') }}">Connexion</a>
+				</li>
+			</ul>
+		{% else %}
+			<a class="text-reset me-3" href="#">
+				<i class="fas fa-shopping-cart"></i>
+			</a>
+
+			<a
+				class="dropdown-toggle d-flex align-items-center hidden-arrow"
+				href="#"
+				id="navbarDropdownMenuLink"
+				role="button"
+				data-mdb-toggle="dropdown"
+				aria-expanded="false"
+			>
+				<img
+					src="https://mdbootstrap.com/img/new/avatars/2.jpg"
+					class="rounded-circle"
+					height="25"
+					alt=""
+					loading="lazy"
+				/>
+			</a>
+			<ul
+				class="dropdown-menu dropdown-menu-end"
+				aria-labelledby="navbarDropdownMenuLink"
+			>
+				<li>
+					<a class="dropdown-item" href="#">Mon compte</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">Mes commandes</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
+				</li>
+			</ul>
+		{% endif %}
+	</div>
+	<!-- Right elements -->
+</div>
+<!-- Container wrapper -->
+</nav>
+<!-- Navbar -->

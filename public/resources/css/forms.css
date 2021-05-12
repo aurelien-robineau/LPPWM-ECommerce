@@ -1,0 +1,27 @@
+div.form-container {
+	height: calc(100vh - var(--navbar-height) - 150px);
+	display: flex;
+	align-items: center;
+}
+
+form.form-sm {
+	width: 25rem;
+	max-width: 100%;
+	margin: auto;
+}
+
+form.form-lg {
+	width: 40rem;
+	max-width: 100%;
+	margin: auto;
+}
+
+form .form-outline > ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+form .form-outline ul > li {
+	font-size: 0.9rem;
+	color: var(--bs-danger);
+}
