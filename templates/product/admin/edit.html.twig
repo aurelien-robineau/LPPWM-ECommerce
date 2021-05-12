@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le produit{% endblock %}
+
+{% block body %}
+    <div class="mt-5">
+        {{ include('assets/return.html.twig', {'route': 'admin_product_index'}) }}
+        <h1 class="mb-3">Modifier le produit</h1>
+
+        {{ include('product/admin/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+
+        {{ include('product/admin/_delete_form.html.twig') }}
+    </div>
+{% endblock %}
