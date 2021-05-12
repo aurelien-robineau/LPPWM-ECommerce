@@ -22,6 +22,10 @@ class SecurityController extends AbstractController
         EntityManagerInterface $manager,
         UserPasswordEncoderInterface $encoder
     ): Response {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
+        }
+        
         $user = new User();
 
         $form = $this->createForm(RegistrationType::class, $user);
