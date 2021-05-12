@@ -19,12 +19,21 @@
                 </div>
             {% endfor %}
 
+            <div class="row mb-2 mt-3">
+                <div class="col col-8 col-sm-10">
+                    <h4>Frais de port</h4>
+                </div>
+                <div class="col col-4 col-sm-2">
+                    <div class="category-price">{{ shippingPrice }}</div>
+                </div>
+            </div>
+
             <div class="row mb-4">
                 <div class="col col-8 col-sm-10">
                     <h2>Total</h2>
                 </div>
                 <div class="col col-4 col-sm-2">
-                    <div class="total-price">{{ totalPrice }} €</div>
+                    <div class="total-price">{{ totalPrice }}</div>
                 </div>
             </div>
         {% else %}
