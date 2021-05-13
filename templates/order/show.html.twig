@@ -9,9 +9,36 @@
 {% block body %}
     <div class="order">
         <h1 class="title">Commande {{ order.reference }}</h1>
+		<h2 class="date">Le {{ date }}</h2>
 
-		{% for item in order.items %}
-			<div>{{ item.product.title }}</div>
-		{% endfor %}
+		<table class="table">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in order.items %}
+                <tr>
+                    <td>{{ item.product.title }}</td>
+                    <td>{{ item.unitPrice }}€</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">Aucun produit</td>
+                </tr>
+            {% endfor %}
+				<tr class="category-price-row">
+                    <td>Frais de port</td>
+                    <td>{{ shippingPrice }}</td>
+                </tr>
+			    <tr class="total-price-row">
+                    <td>Total</td>
+                    <td>{{ totalPrice }}</td>
+                </tr>
+            </tbody>
+        </table>
+
     </div>
 {% endblock %}

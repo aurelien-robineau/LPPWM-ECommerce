@@ -1,17 +1,25 @@
 .order > .title {
 	font-size: 2rem;
 	color: var(--main-color);
-	margin: 2rem 0;
+	margin: 2rem 0 0 0;
 }
 
-.order .category-price {
+.order > .date {
 	font-size: 1.25rem;
-	font-weight: bold;
-	color: black;
+	color: var(--bs-gray);
+	font-style: italic;
+	margin-bottom: 1rem;
 }
 
-.order .total-price {
-	font-size: 1.5rem;
+.order .category-price-row {
 	font-weight: bold;
+}
+
+.order .total-price-row > td {
+	font-weight: bold;
+	font-size: 1.25rem;
+}
+
+.order .total-price-row > td:last-child {
 	color: var(--bs-danger);
 }
