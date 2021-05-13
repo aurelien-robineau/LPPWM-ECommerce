@@ -87,7 +87,7 @@
 				</li>
 				{% if not is_granted('ROLE_ADMIN') %}
 					<li>
-						<a class="dropdown-item" href="#">Mes commandes</a>
+						<a class="dropdown-item" href="{{ path('orders') }}">Mes commandes</a>
 					</li>
 				{% endif %}
 				<li>

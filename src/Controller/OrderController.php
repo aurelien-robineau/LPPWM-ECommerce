@@ -31,18 +31,11 @@ class OrderController extends AbstractController
      */
     public function show(Order $order): Response
     {
-        $totalPrice = 0.00;
-        foreach ($order->getItems() as $item) {
-            $totalPrice += $item->getUnitPrice();
-        }
-
-        $totalPrice += ProductController::getShippingPrice($totalPrice);
-
         return $this->render('order/show.html.twig', [
             'order' => $order,
             'date' => $order->getDate()->format('d/m/Y'),
             'shippingPrice' =>  $order->getShippingPrice() > 0 ? number_format($order->getShippingPrice(), 2) . '€' : 'Offerts',
-            'totalPrice' => number_format($totalPrice, 2) . '€'
+            'totalPrice' => number_format($order->getTotalPrice(), 2) . '€'
         ]);
     }
 

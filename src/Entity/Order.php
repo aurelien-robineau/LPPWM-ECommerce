@@ -133,4 +133,16 @@ class Order
 
         return $this;
     }
+
+    public function getTotalPrice(): float
+    {
+        $totalPrice = 0;
+        foreach ($this->items as $item) {
+            $totalPrice += $item->getUnitPrice();
+        }
+
+        $totalPrice += $this->shippingPrice;
+
+        return $totalPrice;
+    }
 }

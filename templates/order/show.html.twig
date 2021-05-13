@@ -15,13 +15,17 @@
             <thead>
                 <tr>
                     <th>Produit</th>
-                    <th>Prix</th>
+                    <th>Prix unitaire</th>
                 </tr>
             </thead>
             <tbody>
             {% for item in order.items %}
                 <tr>
-                    <td>{{ item.product.title }}</td>
+                    <td>
+						<a href="{{ path('product_show', {id: item.product.id}) }}">
+							{{ item.product.title }}
+						</a>
+					</td>
                     <td>{{ item.unitPrice }}€</td>
                 </tr>
             {% else %}
