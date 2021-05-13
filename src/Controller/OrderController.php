@@ -62,10 +62,11 @@ class OrderController extends AbstractController
                 $orderItem = new OrderItem();
                 $orderItem->setProduct($product);
                 $orderItem->setUnitPrice($product->getPrice());
+                $orderItem->setQuantity($item->getQuantity());
 
                 $order->addItem($orderItem);
 
-                $productsPrice += $product->getPrice();
+                $productsPrice += $product->getPrice() * $item->getQuantity();
             }
 
             $em->remove($item);

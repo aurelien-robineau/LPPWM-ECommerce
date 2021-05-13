@@ -138,7 +138,7 @@ class Order
     {
         $totalPrice = 0;
         foreach ($this->items as $item) {
-            $totalPrice += $item->getUnitPrice();
+            $totalPrice += $item->getUnitPrice() * $item->getQuantity();
         }
 
         $totalPrice += $this->shippingPrice;

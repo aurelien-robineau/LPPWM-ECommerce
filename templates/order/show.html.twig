@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th>Produit</th>
+                    <th>Quantité</th>
                     <th>Prix unitaire</th>
                 </tr>
             </thead>
@@ -26,19 +27,20 @@
 							{{ item.product.title }}
 						</a>
 					</td>
+                    <td>{{ item.quantity }}</td>
                     <td>{{ item.unitPrice }}€</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="2">Aucun produit</td>
+                    <td colspan="3">Aucun produit</td>
                 </tr>
             {% endfor %}
 				<tr class="category-price-row">
-                    <td>Frais de port</td>
+                    <td colspan="2">Frais de port</td>
                     <td>{{ shippingPrice }}</td>
                 </tr>
 			    <tr class="total-price-row">
-                    <td>Total</td>
+                    <td colspan="2">Total</td>
                     <td>{{ totalPrice }}</td>
                 </tr>
             </tbody>

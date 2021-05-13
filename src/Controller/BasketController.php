@@ -22,8 +22,8 @@ class BasketController extends AbstractController
         $productsPrice = 0.00;
         $numberOfProducts = 0;
         foreach ($user->getBasket() as $item) {
-            $productsPrice += $item->getProduct()->getPrice();
-            $numberOfProducts++;
+            $productsPrice += $item->getProduct()->getPrice() * $item->getQuantity();
+            $numberOfProducts += $item->getQuantity();
         }
 
         $shippingPrice = ProductController::getShippingPrice($productsPrice);

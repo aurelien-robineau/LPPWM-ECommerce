@@ -200,13 +200,16 @@ class User implements UserInterface
         return false;
     }
 
-    public function addProductToBasket(Product $product): self
+    public function addProductToBasket(Product $product, int $quantity): self
     {
-        $basketItem = new UserBasket();
-        $basketItem->setUser($this);
-        $basketItem->setProduct($product);
+        if ($product->getQuantity() > 0) {
+            $basketItem = new UserBasket();
+            $basketItem->setUser($this);
+            $basketItem->setProduct($product);
+            $basketItem->setQuantity($product->getQuantity() >= $quantity ? $quantity : $product->getQuantity());
 
-        $this->basketItems[] = $basketItem;
+            $this->basketItems[] = $basketItem;
+        }
 
         return $this;
     }

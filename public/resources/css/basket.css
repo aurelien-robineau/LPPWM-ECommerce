@@ -35,6 +35,10 @@
 	color: var(--bs-dark);
 }
 
+.basket-item-card .quantity {
+	color: var(--bs-dark);
+}
+
 .basket-item-card .price {
 	font-size: 1.25rem;
 	font-weight: bold;

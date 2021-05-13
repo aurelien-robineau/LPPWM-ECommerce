@@ -5,7 +5,7 @@
 				<div class="col col-2 image-container">
 					<img class="image" src="{{ item.product.image }}" alt="{{ item.product.title }}"/>
 				</div>
-				<div class="col col-6 col-sm-8">
+				<div class="col col-6 col-sm-6">
 					<h5 class="h6 title">{{ item.product.title }}</h5>
 					{% if item.product.quantity > 15 %}
 						<div class="in-stock">En stock</div>
@@ -16,7 +16,10 @@
 					{% endif %}
 				</div>
 				<div class="col col-4 col-sm-2">
-					<div class="price">{{ item.product.price }} €</div>
+					<div class="quantity">Quantité : {{ item.quantity }}</div>
+				</div>
+				<div class="col col-12 col-sm-2">
+					<div class="price">{{ item.product.price * item.quantity }} €</div>
 				</div>
 			</div>
 		</div>

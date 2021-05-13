@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Entity\ProductCategory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,7 +27,7 @@ class ProductController extends AbstractController
 	/**
 	 * @Route("/{id}/add-to-basket", name="add_product_to_basket", methods={"POST"})
 	 */
-	public function addToBasket(Product $product): Response
+	public function addToBasket(Request $request, Product $product): Response
 	{
 		$this->denyAccessUnlessGranted('ROLE_USER');
 		$user = $this->getUser();
@@ -34,7 +35,8 @@ class ProductController extends AbstractController
 		if ($product->getQuantity() !== 0 && !$user->hasProductInBasket($product)) {
 			$em = $this->getDoctrine()->getManager();
 
-			$user->addProductToBasket($product);
+			$quantity = (int) $request->request->get('quantity', 1);
+			$user->addProductToBasket($product, $quantity);
 			$em->flush();
 		}
 
