@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Order;
-use App\Entity\OrderProduct;
+use App\Entity\OrderItem;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,11 +54,11 @@ class OrderController extends AbstractController
             $product = $item->getProduct();
 
             if ($product->getQuantity() > 0) {
-                $orderProduct = new OrderProduct();
-                $orderProduct->setProduct($product);
-                $orderProduct->setUnitPrice($product->getPrice());
+                $orderItem = new OrderItem();
+                $orderItem->setProduct($product);
+                $orderItem->setUnitPrice($product->getPrice());
 
-                $order->addOrderProduct($orderProduct);
+                $order->addItem($orderItem);
 
                 $productsPrice += $product->getPrice();
             }

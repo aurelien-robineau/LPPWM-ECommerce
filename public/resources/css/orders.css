@@ -1,0 +1,17 @@
+.order > .title {
+	font-size: 2rem;
+	color: var(--main-color);
+	margin: 2rem 0;
+}
+
+.order .category-price {
+	font-size: 1.25rem;
+	font-weight: bold;
+	color: black;
+}
+
+.order .total-price {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: var(--bs-danger);
+}

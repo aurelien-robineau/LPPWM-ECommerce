@@ -3,13 +3,15 @@
 {% block title %}Commande {{ order.reference }}{% endblock %}
 
 {% block stylesheets %}
-    <link href="/resources/css/basket.css" rel="stylesheet"/>
+    <link href="/resources/css/orders.css" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
-    <div class="basket">
+    <div class="order">
         <h1 class="title">Commande {{ order.reference }}</h1>
 
-        
+		{% for item in order.items %}
+			<div>{{ item.product.title }}</div>
+		{% endfor %}
     </div>
 {% endblock %}

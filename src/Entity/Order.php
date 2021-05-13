@@ -26,9 +26,9 @@ class Order
     private $reference;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="forOrder", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=OrderItem::class, mappedBy="order", orphanRemoval=true, cascade={"persist"})
      */
-    private $orderProducts;
+    private $items;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders")
@@ -48,7 +48,7 @@ class Order
 
     public function __construct()
     {
-        $this->orderProducts = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,27 +71,27 @@ class Order
     /**
      * @return Collection|OrderProduct[]
      */
-    public function getOrderProducts(): Collection
+    public function getItems(): Collection
     {
-        return $this->orderProducts;
+        return $this->items;
     }
 
-    public function addOrderProduct(OrderProduct $orderProduct): self
+    public function addItem(OrderItem $item): self
     {
-        if (!$this->orderProducts->contains($orderProduct)) {
-            $this->orderProducts[] = $orderProduct;
-            $orderProduct->setOrder($this);
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+            $item->setOrder($this);
         }
 
         return $this;
     }
 
-    public function removeOrderProduct(OrderProduct $orderProduct): self
+    public function removeItem(OrderItem $item): self
     {
-        if ($this->orderProducts->removeElement($orderProduct)) {
+        if ($this->items->removeElement($item)) {
             // set the owning side to null (unless already changed)
-            if ($orderProduct->getOrder() === $this) {
-                $orderProduct->setOrder(null);
+            if ($item->getOrder() === $this) {
+                $item->setOrder(null);
             }
         }
 
