@@ -28,6 +28,17 @@ form .field-error ul > li {
 	color: var(--bs-danger);
 }
 
+form .form-section-title {
+	font-size: 1.25rem;
+	margin-bottom: 1rem;
+}
+
+form .form-info {
+	font-size: 1rem;
+	color: var(--bs-gray);
+	margin-bottom: 0.75rem;
+}
+
 select.browser-default {
 	display: block !important;
 }

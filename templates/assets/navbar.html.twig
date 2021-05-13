@@ -109,7 +109,7 @@
 				aria-labelledby="navbarDropdownMenuLink"
 			>
 				<li>
-					<a class="dropdown-item" href="#">Mon compte</a>
+					<a class="dropdown-item" href="{{ path('account') }}">Mon compte</a>
 				</li>
 				{% if not is_granted('ROLE_ADMIN') %}
 					<li>
