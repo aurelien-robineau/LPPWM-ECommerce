@@ -13,7 +13,10 @@ class AccountEditType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
-			->add('username');
+			->add('username')
+			->add('address')
+			->add('city')
+			->add('postalCode');
 	}
 
 	public function configureOptions(OptionsResolver $resolver)

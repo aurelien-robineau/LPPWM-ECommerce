@@ -20,6 +20,11 @@
             <div class="info-value">{{ app.user.username }}</div>
         </div>
 
+        <div class="info">
+            <div class="info-name">Adresse</div>
+            <div class="info-value">{{ app.user.address }}, {{ app.user.postalCode}} {{ app.user.city }}</div>
+        </div>
+
         <div class="d-grid d-sm-block gap-2">
             <a
                 href={{ path('account_edit') }}
