@@ -20,4 +20,13 @@ class HomeController extends AbstractController
             'categories' => $categoryRepository->findAll()
         ]);
     }
+
+    protected function render(string $view, array $parameters = [], ?Response $response = null): Response
+    {
+        // Always add categories for navbar on render
+        $categoryRepository = $this->getDoctrine()->getRepository(ProductCategory::class);
+        $parameters['categories'] = $categoryRepository->findAll();
+
+        return parent::render($view, $parameters, $response);
+    }
 }

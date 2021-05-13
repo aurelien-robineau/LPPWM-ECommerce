@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\ProductCategory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -76,5 +77,14 @@ class ProductController extends AbstractController
 			return 14.99;
 		else
 			return 19.99;
+	}
+
+	protected function render(string $view, array $parameters = [], ?Response $response = null): Response
+	{
+		// Always add categories for navbar on render
+		$categoryRepository = $this->getDoctrine()->getRepository(ProductCategory::class);
+		$parameters['categories'] = $categoryRepository->findAll();
+
+		return parent::render($view, $parameters, $response);
 	}
 }

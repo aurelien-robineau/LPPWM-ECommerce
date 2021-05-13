@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Entity\OrderItem;
+use App\Entity\ProductCategory;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,5 +79,14 @@ class OrderController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('order_show', ['id' => $order->getId()]);
+    }
+
+    protected function render(string $view, array $parameters = [], ?Response $response = null): Response
+    {
+        // Always add categories for navbar on render
+        $categoryRepository = $this->getDoctrine()->getRepository(ProductCategory::class);
+        $parameters['categories'] = $categoryRepository->findAll();
+
+        return parent::render($view, $parameters, $response);
     }
 }

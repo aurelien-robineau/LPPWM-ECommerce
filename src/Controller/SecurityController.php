@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ProductCategory;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,4 +66,13 @@ class SecurityController extends AbstractController
      * @Route("/logout", name="app_logout")
      */
     public function logout() {}
+
+    protected function render(string $view, array $parameters = [], ?Response $response = null): Response
+    {
+        // Always add categories for navbar on render
+        $categoryRepository = $this->getDoctrine()->getRepository(ProductCategory::class);
+        $parameters['categories'] = $categoryRepository->findAll();
+
+        return parent::render($view, $parameters, $response);
+    }
 }

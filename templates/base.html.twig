@@ -25,7 +25,7 @@
         {% block javascripts %}{% endblock %}
     </head>
     <body>
-        {{ include('assets/navbar.html.twig') }}
+        {{ include('assets/navbar.html.twig', {categories: categories}) }}
 
         <div class="container">
             {% block body %}{% endblock %}

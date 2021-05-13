@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\ProductCategory;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -90,5 +91,14 @@ class ProductAdminController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_product_index');
+    }
+
+    protected function render(string $view, array $parameters = [], ?Response $response = null): Response
+    {
+        // Always add categories for navbar on render
+        $categoryRepository = $this->getDoctrine()->getRepository(ProductCategory::class);
+        $parameters['categories'] = $categoryRepository->findAll();
+
+        return parent::render($view, $parameters, $response);
     }
 }

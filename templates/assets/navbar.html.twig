@@ -27,8 +27,34 @@
 			/>
 			<h1>{{ app.request.server.get('APP_NAME') }}</h1>
 		</a>
-		{% if is_granted('ROLE_ADMIN') %}
-			<!-- Left links -->
+		<!-- Left links -->
+		{% if not is_granted('ROLE_ADMIN') %}
+			{% if categories|length > 0 %}
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item dropdown">
+						<a
+							class="nav-link dropdown-toggle"
+							href="#"
+							id="categoriesDropdown"
+							role="button"
+							data-mdb-toggle="dropdown"
+							aria-expanded="false"
+						>
+							Catégories
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+						{% for category in categories %}
+							<li>
+								<a class="dropdown-item" href="{{ path('product_category_show', {id: category.id}) }}">
+									{{ category.label }}
+								</a>
+							</li>
+						{% endfor %}
+						</ul>
+					</li>
+				</ul>
+			{% endif %}
+		{% else %}
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a
@@ -45,8 +71,8 @@
 					</a>
 				</li>
 			</ul>
-			<!-- Left links -->
 		{% endif %}
+		<!-- Left links -->
 	</div>
 	<!-- Collapsible wrapper -->
 
