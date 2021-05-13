@@ -58,7 +58,7 @@ class OrderController extends AbstractController
             $product = $item->getProduct();
 
             if ($product->getQuantity() > 0 && $product->getQuantity() >= $item->getQuantity()) {
-                $product->setQuantity($product->getQuantity() - 1);
+                $product->setQuantity($product->getQuantity() - $item->getQuantity());
                 $orderItem = new OrderItem();
                 $orderItem->setProduct($product);
                 $orderItem->setUnitPrice($product->getPrice());
