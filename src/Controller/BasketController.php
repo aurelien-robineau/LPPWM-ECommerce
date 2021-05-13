@@ -21,9 +21,14 @@ class BasketController extends AbstractController
     
         $productsPrice = 0.00;
         $numberOfProducts = 0;
+        $canMakeOrder = true;
         foreach ($user->getBasket() as $item) {
             $productsPrice += $item->getProduct()->getPrice() * $item->getQuantity();
             $numberOfProducts += $item->getQuantity();
+
+            if ($item->getProduct()->getQuantity() === 0 || $item->getProduct()->getQuantity() < $item->getQuantity()) {
+                $canMakeOrder = false;
+            }
         }
 
         $shippingPrice = ProductController::getShippingPrice($productsPrice);
@@ -33,7 +38,8 @@ class BasketController extends AbstractController
         return $this->render('basket/index.html.twig', [
             'shippingPrice' => $shippingPrice > 0 ? number_format($shippingPrice, 2) . '€' : 'Offerts',
             'totalPrice' => number_format($totalPrice, 2) . '€',
-            'numberOfProducts' => $numberOfProducts
+            'numberOfProducts' => $numberOfProducts,
+            'canMakeOrder' => $canMakeOrder
         ]);
     }
 

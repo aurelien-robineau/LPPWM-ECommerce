@@ -57,7 +57,7 @@ class OrderController extends AbstractController
         foreach ($user->getBasket() as $item) {
             $product = $item->getProduct();
 
-            if ($product->getQuantity() > 0) {
+            if ($product->getQuantity() > 0 && $product->getQuantity() >= $item->getQuantity()) {
                 $product->setQuantity($product->getQuantity() - 1);
                 $orderItem = new OrderItem();
                 $orderItem->setProduct($product);

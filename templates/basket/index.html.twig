@@ -41,7 +41,7 @@
                 <button
                     class="btn btn-main btn-block-sm"
                     data-mdb-toggle="modal"
-  					data-mdb-target="#modalConfirm"
+  					data-mdb-target="#{{ canMakeOrder ? 'modalConfirm' : 'modalError' }}"
                 >
                     Commander
                 </button>
@@ -51,6 +51,7 @@
         {% endif %}
     </div>
 
+    {% if canMakeOrder %}
     <div
         class="modal fade"
         id="modalConfirm"
@@ -80,4 +81,35 @@
             </div>
         </div>
 	</div>
+    {% else %}
+        <div
+            class="modal fade"
+            id="modalError"
+            tabindex="-1"
+            aria-labelledby="modalErrorLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalErrorLabel">Panier invalide</h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-mdb-dismiss="modal"
+                            aria-label="Fermer"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        Votre panier contient des articles en quantité insuffisante. Merci de retirer ces articles ou de changer la quantité demandée pour pouvoir commander.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-main" data-mdb-dismiss="modal">
+							Fermer
+						</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
