@@ -21,7 +21,12 @@ class Order
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="forOrder", orphanRemoval=true)
+     * @ORM\Column(type="string", length=255)
+     */
+    private $reference;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OrderProduct::class, mappedBy="forOrder", orphanRemoval=true, cascade={"persist"})
      */
     private $orderProducts;
 
@@ -43,12 +48,24 @@ class Order
 
     public function __construct()
     {
-        $this->orderProduct = new ArrayCollection();
+        $this->orderProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
     }
 
     /**

@@ -63,4 +63,18 @@ class ProductController extends AbstractController
 			'product' => $product,
 		]);
 	}
+
+	public static function getShippingPrice(int $orderPrice): float
+	{
+		if ($orderPrice >= 100)
+			return 0.0;
+		else if ($orderPrice >= 50)
+			return 4.99;
+		else if ($orderPrice >= 30)
+			return 9.99;
+		else if ($orderPrice >= 20)
+			return 14.99;
+		else
+			return 19.99;
+	}
 }

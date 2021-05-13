@@ -36,8 +36,48 @@
                     <div class="total-price">{{ totalPrice }}</div>
                 </div>
             </div>
+
+            <div class="d-grid d-sm-block gap-2">
+                <button
+                    class="btn btn-main btn-block-sm"
+                    data-mdb-toggle="modal"
+  					data-mdb-target="#modalConfirm"
+                >
+                    Commander
+                </button>
+            </div>
         {% else %}
             <h6>Aucun produit dans le panier...</h6>
         {% endif %}
     </div>
+
+    <div
+        class="modal fade"
+        id="modalConfirm"
+        tabindex="-1"
+        aria-labelledby="modalConfirmLabel"
+        aria-hidden="true"
+	>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalConfirmLabel">Confirmation d'achat</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-mdb-dismiss="modal"
+                        aria-label="Fermer"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    Vous êtes sur le point d'acheter {{ numberOfProducts }} article(s) pour le prix de {{ totalPrice }}.
+                </div>
+                <div class="modal-footer">
+                    {{ include('basket/_order_basket.html.twig', {
+                        totalPrice: totalPrice
+                    }) }}
+                </div>
+            </div>
+        </div>
+	</div>
 {% endblock %}

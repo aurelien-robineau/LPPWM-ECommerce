@@ -19,31 +19,20 @@ class BasketController extends AbstractController
         $user = $this->getUser();
     
         $productsPrice = 0.00;
+        $numberOfProducts = 0;
         foreach ($user->getBasket() as $item) {
             $productsPrice += $item->getProduct()->getPrice();
+            $numberOfProducts++;
         }
 
-        $shippingPrice = self::getShippingPrice($productsPrice);
+        $shippingPrice = ProductController::getShippingPrice($productsPrice);
 
         $totalPrice = $productsPrice + $shippingPrice;
 
         return $this->render('basket/index.html.twig', [
-            'shippingPrice' => $shippingPrice > 0 ? number_format($shippingPrice, 2) . ' €' : 'Offerts',
-            'totalPrice' => number_format($totalPrice, 2) . ' €'
+            'shippingPrice' => $shippingPrice > 0 ? number_format($shippingPrice, 2) . '€' : 'Offerts',
+            'totalPrice' => number_format($totalPrice, 2) . '€',
+            'numberOfProducts' => $numberOfProducts
         ]);
-    }
-
-    private static function getShippingPrice(int $orderPrice): float
-    {
-        if ($orderPrice >= 100)
-            return 0.0;
-        else if ($orderPrice >= 50)
-            return 4.99;
-        else if ($orderPrice >= 30)
-            return 9.99;
-        else if ($orderPrice >= 20)
-            return 14.99;
-        else
-            return 19.99;
     }
 }

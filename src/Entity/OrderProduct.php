@@ -26,7 +26,7 @@ class OrderProduct
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2)
      */
-    private $price;
+    private $unitPrice;
 
     /**
      * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderProduct")
@@ -51,14 +51,14 @@ class OrderProduct
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getUnitPrice(): ?string
     {
-        return $this->price;
+        return $this->unitPrice;
     }
 
-    public function setPrice(string $price): self
+    public function setUnitPrice(string $price): self
     {
-        $this->price = $price;
+        $this->unitPrice = $price;
 
         return $this;
     }

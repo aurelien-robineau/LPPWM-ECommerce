@@ -57,7 +57,7 @@ class User implements UserInterface
     private $basketItems;
 
     /**
-     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user", orphanRemoval=true, cascade={"persist"})
      */
     private $orders;
 
