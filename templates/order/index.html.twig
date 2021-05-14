@@ -10,10 +10,16 @@
     <div class="order">
         <h1 class="title">Mes commandes</h1>
 
+        <div class="row">
 		{% for order in app.user.orders %}
-            {{ include('assets/orderCard.html.twig', {order: order}) }}
+            <div class="col col-12 mt-2">
+                {{ include('assets/orderCard.html.twig', {order: order}) }}
+            </div>
         {% else %}
-            <h6>Aucune commandes pour le moment.</h6>
+            <div class="col col-12">
+                <h6>Aucune commandes pour le moment.</h6>
+            </div>
         {% endfor %}
+        </div>
     </div>
 {% endblock %}
