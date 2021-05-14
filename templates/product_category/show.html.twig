@@ -11,9 +11,9 @@
     <div class="category">
         <h1 class="title">{{ category.label }}</h1>
 
-        {% if category.products|length > 0 %}
+        {% if category.activeProducts|length > 0 %}
             <div class="row mb-4">
-                {% for index, product in category.products %}
+                {% for index, product in category.activeProducts %}
                     {% if (index % 6) is same as(0) and index is not same as(0) %}
                         </div><div class="row mb-4">
                     {% endif %}

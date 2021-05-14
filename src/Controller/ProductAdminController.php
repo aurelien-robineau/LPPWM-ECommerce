@@ -37,6 +37,7 @@ class ProductAdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $product->setIsRemoved(false);
             $entityManager->persist($product);
             $entityManager->flush();
 
@@ -80,17 +81,38 @@ class ProductAdminController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_product_delete", methods={"POST"})
+     * @Route("/remove/{id}", name="admin_product_remove", methods={"POST"})
      */
-    public function delete(Request $request, Product $product): Response
+    public function remove(Request $request, Product $product): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('remove' . $product->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($product);
+
+            $product->setIsRemoved(true);
+
+            $basketItems = $product->getBasketItems();
+            foreach ($basketItems as $item) {
+                $entityManager->remove($item);
+            }
+
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_product_index');
+        return $this->redirectToRoute('admin_product_show', ['id' => $product->getId()]);
+    }
+
+    /**
+     * @Route("/activate/{id}", name="admin_product_activate", methods={"POST"})
+     */
+    public function activate(Request $request, Product $product): Response
+    {
+        if ($this->isCsrfTokenValid('activate' . $product->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $product->setIsRemoved(false);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_product_show', ['id' => $product->getId()]);
     }
 
     protected function render(string $view, array $parameters = [], ?Response $response = null): Response

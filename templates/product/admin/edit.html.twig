@@ -9,6 +9,10 @@
 
         {{ include('product/admin/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
-        {{ include('product/admin/_delete_form.html.twig') }}
+        {% if product.isRemoved %}
+            {{ include('product/admin/_activate_form.html.twig') }}
+        {% else %}
+            {{ include('product/admin/_remove_form.html.twig') }}
+        {% endif %}
     </div>
 {% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +43,16 @@ class Product
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
     private $category;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isRemoved;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserBasket::class, mappedBy="product", orphanRemoval=true, cascade={"persist"})
+     */
+    private $basketItems;
 
     public function getId(): ?int
     {
@@ -106,5 +117,25 @@ class Product
         $this->category = $category;
 
         return $this;
+    }
+
+    public function isRemoved(): bool
+    {
+        return $this->isRemoved;
+    }
+
+    public function setIsRemoved(bool $isRemoved): self
+    {
+        $this->isRemoved = $isRemoved;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserBasket[]
+     */
+    public function getBasketItems(): Collection
+    {
+        return $this->basketItems;
     }
 }

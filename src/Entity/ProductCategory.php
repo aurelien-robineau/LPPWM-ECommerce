@@ -81,6 +81,21 @@ class ProductCategory
         return $this->products;
     }
 
+    /**
+     * @return Product[]
+     */
+    public function getActiveProducts(): Array
+    {
+        $activeProducts = [];
+        foreach($this->products as $product) {
+            if (!$product->isRemoved()) {
+                array_push($activeProducts, $product);
+            }
+        }
+
+        return $activeProducts;
+    }
+
     public function addProduct(Product $product): self
     {
         if (!$this->products->contains($product)) {

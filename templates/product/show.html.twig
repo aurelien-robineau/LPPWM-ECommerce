@@ -17,16 +17,16 @@
 			<div class="col col-sm-9 col-12">
 				<h2 class="mt-4">{{ product.price|number_format(2, ',', '.') }}€</h2>
 				
-				{% if product.quantity > 15 %}
+				{% if product.quantity > 15 and not product.isRemoved %}
 					<div class="in-stock">En stock</div>
-				{% elseif product.quantity > 0 %}
+				{% elseif product.quantity > 0 and not product.isRemoved %}
 					<div class="last-items">Plus que {{ product.quantity|number_format(0, ',', '.') }} en stock</div>
 				{% else %}
 					<div class="unavailable">Indisponible</div>
 				{% endif %}
 
 				<div class="d-grid d-sm-block gap-2">
-					{% if product.quantity is not same as(0) %}
+					{% if product.quantity is not same as(0) and not product.isRemoved %}
 						{% if app.user and not is_granted('ROLE_ADMIN') %}
 							{% if not app.user.hasProductInBasket(product) %}
 								{{ include('product/_add_to_basket_form.html.twig') }}

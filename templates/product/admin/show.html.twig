@@ -37,11 +37,21 @@
                         </a>
                     </td>
                 </tr>
+                <tr>
+                    <th>Statut</th>
+                    <td>
+                        {{ product.isRemoved ? 'Retiré du catalogue' : 'Actif' }}
+                    </td>
+                </tr>
             </tbody>
         </table>
 
         <a class="btn btn-primary mb-2" href="{{ path('admin_product_edit', {'id': product.id}) }}">Modifier</a>
 
-        {{ include('product/admin/_delete_form.html.twig') }}
+        {% if product.isRemoved %}
+            {{ include('product/admin/_activate_form.html.twig') }}
+        {% else %}
+            {{ include('product/admin/_remove_form.html.twig') }}
+        {% endif %}
     </div>
 {% endblock %}

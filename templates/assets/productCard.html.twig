@@ -15,9 +15,9 @@
 				{{ product.price|number_format(2, ',', '.') }}€
 
 				<small class="d-block">
-					{% if product.quantity > 15 %}
+					{% if product.quantity > 15 and not product.isRemoved %}
 						<span class="in-stock">En stock</span>
-					{% elseif product.quantity > 0 %}
+					{% elseif product.quantity > 0 and not product.isRemoved %}
 						<span class="last-items">Plus que {{ product.quantity }} en stock</span>
 					{% else %}
 						<span class="unavailable">Indisponible</span>

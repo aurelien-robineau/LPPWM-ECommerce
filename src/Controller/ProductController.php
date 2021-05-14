@@ -32,7 +32,7 @@ class ProductController extends AbstractController
 		$this->denyAccessUnlessGranted('ROLE_USER');
 		$user = $this->getUser();
 
-		if ($product->getQuantity() !== 0 && !$user->hasProductInBasket($product)) {
+		if ($product->getQuantity() !== 0 && !$user->hasProductInBasket($product) && !$product->isRemoved()) {
 			$em = $this->getDoctrine()->getManager();
 
 			$quantity = (int) $request->request->get('quantity', 1);

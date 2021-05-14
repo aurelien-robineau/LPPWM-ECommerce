@@ -15,6 +15,7 @@
                     <th>Prix</th>
                     <th>Quantité displonible</th>
                     <th>Catégorie</th>
+                    <th>Statut</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -30,6 +31,9 @@
                         <a href="{{ path('admin_product_category_show', {'id': product.category.id}) }}">
                             {{ product.category.label }}
                         </a>
+                    </td>
+                    <td>
+                        {{ product.isRemoved ? 'Retiré du catalogue' : 'Actif' }}
                     </td>
                     <td>
                         <a href="{{ path('admin_product_show', {'id': product.id}) }}">Voir</a>
