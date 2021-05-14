@@ -12,7 +12,7 @@
 	<div class="card-body">
 		<h5 class="card-title">{{ category.label }}</h5>
 			<p class="card-text">
-				<small class="text-muted">{{ category.products|length }} produits</small>
+				<small class="text-muted">{{ category.products|length }} produit{{ category.products|length is not same as(1) ? 's' : '' }}</small>
 			</p>
 	</div>
 </div>
