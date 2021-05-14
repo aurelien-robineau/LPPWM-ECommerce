@@ -22,12 +22,12 @@
                     <td>{{ product.image }}</td>
                 </tr>
                 <tr>
-                    <th>Prix (€)</th>
-                    <td>{{ product.price }}</td>
+                    <th>Prix</th>
+                    <td>{{ product.price|number_format(2, ',', '.') }}€</td>
                 </tr>
                 <tr>
                     <th>Quantité disponible</th>
-                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.quantity|number_format(0, ',', '.') }}</td>
                 </tr>
                 <tr>
                     <th>Catégorie</th>
