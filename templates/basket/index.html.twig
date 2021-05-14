@@ -51,6 +51,71 @@
         {% endif %}
     </div>
 
+    {% if app.user.getBasket|length > 0 %}
+        {% for item in app.user.getBasket %}
+            <div
+                class="modal fade"
+                id="modalEditItem{{ item.id }}"
+                tabindex="-1"
+                aria-labelledby="modalEditItem{{ item.id }}Label"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalEditItem{{ item.id }}Label">Modifier le panier</h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-mdb-dismiss="modal"
+                                aria-label="Fermer"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            {{ include('basket/_edit_form.html.twig', {item: item}) }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-main" data-mdb-dismiss="modal">
+							    Annuler
+						    </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="modal fade"
+                id="modalRemoveItem{{ item.id }}"
+                tabindex="-1"
+                aria-labelledby="modalRemoveItem{{ item.id }}Label"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalRemoveItem{{ item.id }}Label">Retirer du panier</h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-mdb-dismiss="modal"
+                                aria-label="Fermer"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            Voulez-vous vraiment retirer "{{ item.product.title }}" de votre panier ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-main" data-mdb-dismiss="modal">
+							    Annuler
+						    </button>
+                            {{ include('basket/_remove_from_basket_form.html.twig', {item: item}) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     {% if canMakeOrder %}
     <div
         class="modal fade"
@@ -74,7 +139,7 @@
                     Vous êtes sur le point d'acheter {{ numberOfProducts }} article(s) pour le prix de {{ totalPrice }}.
                 </div>
                 <div class="modal-footer">
-                    {{ include('basket/_order_basket.html.twig', {
+                    {{ include('basket/_order_basket_form.html.twig', {
                         totalPrice: totalPrice
                     }) }}
                 </div>

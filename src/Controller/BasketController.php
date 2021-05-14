@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\ProductCategory;
+use App\Entity\UserBasket;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -41,6 +43,40 @@ class BasketController extends AbstractController
             'numberOfProducts' => $numberOfProducts,
             'canMakeOrder' => $canMakeOrder
         ]);
+    }
+
+    /**
+     * @Route("/edit-item/{id}", name="basket_edit", methods={"POST"})
+     */
+    public function editItem(Request $request, UserBasket $basketItem): Response
+    {
+        $user = $this->getUser();
+
+        if ($basketItem->getUser()->getId() ===$user->getId()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $basketItem->setQuantity((int) $request->request->get('quantity'));
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('basket');
+    }
+
+    /**
+     * @Route("/remove-item/{id}", name="basket_remove_item", methods={"POST"})
+     */
+    public function removeItem(UserBasket $basketItem): Response
+    {
+        $user = $this->getUser();
+
+        if ($basketItem->getUser()->getId() === $user->getId()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->remove($basketItem);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('basket');
     }
 
     protected function render(string $view, array $parameters = [], ?Response $response = null): Response

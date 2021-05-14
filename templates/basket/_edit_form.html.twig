@@ -1,0 +1,10 @@
+<form method="post" action="{{ path('basket_edit', {id: item.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('basket_edit' ~ app.user.id) }}">
+	<div class="form-outline">
+		<input type="number" class="form-control" id="newBasketQuantity" name="quantity" min="1" max="{{ item.product.quantity }}">
+		<label for="newBasketQuantity" class="form-label">Quantité</label>
+	</div>
+    <button type="submit" class="btn btn-main mt-3">
+        Enregistrer
+    </button>
+</form>
