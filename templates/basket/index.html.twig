@@ -24,7 +24,7 @@
                     <h4>Frais de port</h4>
                 </div>
                 <div class="col col-4 col-sm-2">
-                    <div class="category-price">{{ shippingPrice }}</div>
+                    <div class="category-price">{{ shippingPrice > 0 ? shippingPrice|number_format(2, ',', '.') : 'Offerts' }}{{ shippingPrice > 0 ? '€' : '' }}</div>
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
                     <h2>Total</h2>
                 </div>
                 <div class="col col-4 col-sm-2">
-                    <div class="total-price">{{ totalPrice }}</div>
+                    <div class="total-price">{{ totalPrice|number_format(2, ',', '.') }}€</div>
                 </div>
             </div>
 
@@ -136,7 +136,7 @@
                     ></button>
                 </div>
                 <div class="modal-body">
-                    Vous êtes sur le point d'acheter {{ numberOfProducts }} article(s) pour le prix de {{ totalPrice }}.
+                    Vous êtes sur le point d'acheter {{ numberOfProducts|number_format(0, ',', '.') }} article(s) pour le prix de {{ totalPrice|number_format(2, ',', '.') }}€.
                 </div>
                 <div class="modal-footer">
                     {{ include('basket/_order_basket_form.html.twig', {

@@ -9,7 +9,7 @@
 {% block body %}
     <div class="order">
         <h1 class="title">Commande {{ order.reference }}</h1>
-		<h2 class="date">Le {{ date }}</h2>
+		<h2 class="date">Le {{ order.date|date("d/m/Y") }}</h2>
 
 		<table class="table">
             <thead>
@@ -27,8 +27,8 @@
 							{{ item.product.title }}
 						</a>
 					</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.unitPrice }}€</td>
+                    <td>{{ item.quantity|number_format(0, ',', '.') }}</td>
+                    <td>{{ item.unitPrice|number_format(2, ',', '.') }}€</td>
                 </tr>
             {% else %}
                 <tr>
@@ -37,11 +37,11 @@
             {% endfor %}
 				<tr class="category-price-row">
                     <td colspan="2">Frais de port</td>
-                    <td>{{ shippingPrice }}</td>
+                    <td>{{ order.shippingPrice > 0 ? order.shippingPrice|number_format(2, ',', '.') : 'Offerts' }}{{ order.shippingPrice > 0 ? '€' : '' }}</td>
                 </tr>
 			    <tr class="total-price-row">
                     <td colspan="2">Total</td>
-                    <td>{{ totalPrice }}</td>
+                    <td>{{ order.totalPrice|number_format(2, ',', '.') }}</td>
                 </tr>
             </tbody>
         </table>

@@ -33,10 +33,7 @@ class OrderController extends AbstractController
     public function show(Order $order): Response
     {
         return $this->render('order/show.html.twig', [
-            'order' => $order,
-            'date' => $order->getDate()->format('d/m/Y'),
-            'shippingPrice' =>  $order->getShippingPrice() > 0 ? number_format($order->getShippingPrice(), 2) . '€' : 'Offerts',
-            'totalPrice' => number_format($order->getTotalPrice(), 2) . '€'
+            'order' => $order
         ]);
     }
 

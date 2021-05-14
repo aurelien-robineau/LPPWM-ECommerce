@@ -15,12 +15,12 @@
 				<img class="image" src="{{ product.image }}" alt="{{ product.title }}"/>
 			</div>
 			<div class="col col-sm-9 col-12">
-				<h2 class="mt-4">{{ product.price }} €</h2>
+				<h2 class="mt-4">{{ product.price|number_format(2, ',', '.') }}€</h2>
 				
 				{% if product.quantity > 15 %}
 					<div class="in-stock">En stock</div>
 				{% elseif product.quantity > 0 %}
-					<div class="last-items">Plus que {{ product.quantity }} en stock</div>
+					<div class="last-items">Plus que {{ product.quantity|number_format(0, ',', '.') }} en stock</div>
 				{% else %}
 					<div class="unavailable">Indisponible</div>
 				{% endif %}

@@ -38,8 +38,8 @@ class BasketController extends AbstractController
         $totalPrice = $productsPrice + $shippingPrice;
 
         return $this->render('basket/index.html.twig', [
-            'shippingPrice' => $shippingPrice > 0 ? number_format($shippingPrice, 2) . '€' : 'Offerts',
-            'totalPrice' => number_format($totalPrice, 2) . '€',
+            'shippingPrice' => $shippingPrice,
+            'totalPrice' => $totalPrice,
             'numberOfProducts' => $numberOfProducts,
             'canMakeOrder' => $canMakeOrder
         ]);

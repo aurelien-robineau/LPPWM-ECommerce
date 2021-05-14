@@ -13,16 +13,16 @@
 				{% if item.product.quantity > 15 %}
 					<div class="in-stock">En stock</div>
 				{% elseif item.product.quantity > 0 %}
-					<div class="last-items">Plus que {{ item.product.quantity }} en stock</div>
+					<div class="last-items">Plus que {{ item.product.quantity|number_format(0, ',', '.') }} en stock</div>
 				{% else %}
 					<div class="unavailable">Indisponible</div>
 				{% endif %}
 			</div>
 			<div class="col col-6 col-sm-2">
-				<div class="quantity">Quantité : {{ item.quantity }}</div>
+				<div class="quantity">Quantité : {{ item.quantity|number_format(0, ',', '.') }}</div>
 			</div>
 			<div class="col col-6 col-sm-2">
-				<div class="price">{{ item.product.price * item.quantity }} €</div>
+				<div class="price">{{ (item.product.price * item.quantity)|number_format(2, ',', '.') }}€</div>
 			</div>
 		</div>
 		<div class="row mt-sm-3">

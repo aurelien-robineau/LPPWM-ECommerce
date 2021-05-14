@@ -12,7 +12,7 @@
 	<div class="card-body">
 		<h5 class="card-title">{{ product.title }}</h5>
 			<p class="card-text">
-				{{ product.price }} €
+				{{ product.price|number_format(2, ',', '.') }}€
 
 				<small class="d-block">
 					{% if product.quantity > 15 %}
