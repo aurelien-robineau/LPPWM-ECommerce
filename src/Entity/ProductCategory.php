@@ -35,6 +35,11 @@ class ProductCategory
     private $image;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isRemoved;
+
+    /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="category", orphanRemoval=true)
      */
     private $products;
@@ -69,6 +74,18 @@ class ProductCategory
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function isRemoved(): bool
+    {
+        return $this->isRemoved;
+    }
+
+    public function setIsRemoved(bool $isRemoved): self
+    {
+        $this->isRemoved = $isRemoved;
 
         return $this;
     }

@@ -12,6 +12,7 @@
                     <th>ID</th>
                     <th>Titre</th>
                     <th>URL de l'image</th>
+                    <th>Statut</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -21,6 +22,7 @@
                     <td>{{ product_category.id }}</td>
                     <td>{{ product_category.label }}</td>
                     <td>{{ product_category.image }}</td>
+                    <td>{{ product_category.isRemoved ? 'Désactivée' : 'Active' }}</td>
                     <td>
                         <a href="{{ path('admin_product_category_show', {'id': product_category.id}) }}">Voir</a>
                         <a href="{{ path('admin_product_category_edit', {'id': product_category.id}) }}">Modifier</a>

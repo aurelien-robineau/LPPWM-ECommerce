@@ -44,11 +44,13 @@
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
 						{% for category in categories %}
-							<li>
-								<a class="dropdown-item" href="{{ path('product_category_show', {id: category.id}) }}">
-									{{ category.label }}
-								</a>
-							</li>
+							{% if not category.isRemoved %}
+								<li>
+									<a class="dropdown-item" href="{{ path('product_category_show', {id: category.id}) }}">
+										{{ category.label }}
+									</a>
+								</li>
+							{% endif %}
 						{% endfor %}
 						</ul>
 					</li>

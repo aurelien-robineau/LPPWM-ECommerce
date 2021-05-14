@@ -17,6 +17,10 @@ class ProductCategoryController extends AbstractController
      */
     public function show(ProductCategory $productCategory): Response
     {
+        if ($productCategory->isRemoved()) {
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('product_category/show.html.twig', [
             'category' => $productCategory,
         ]);

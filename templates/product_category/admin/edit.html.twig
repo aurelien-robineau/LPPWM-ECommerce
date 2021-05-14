@@ -9,6 +9,10 @@
 
         {{ include('product_category/admin/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-        {{ include('product_category/admin/_delete_form.html.twig') }}
+        {% if not product_category.isRemoved %}
+            {{ include('product_category/admin/_remove_form.html.twig') }}
+        {% else %}
+            {{ include('product_category/admin/_activate_form.html.twig') }}
+        {% endif %}
     </div>
 {% endblock %}

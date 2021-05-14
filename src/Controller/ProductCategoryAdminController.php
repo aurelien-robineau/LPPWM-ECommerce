@@ -79,17 +79,48 @@ class ProductCategoryAdminController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_product_category_delete", methods={"POST"})
+     * @Route("/remove/{id}", name="admin_product_category_remove", methods={"POST"})
      */
-    public function delete(Request $request, ProductCategory $productCategory): Response
+    public function remove(Request $request, ProductCategory $productCategory): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$productCategory->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('remove'.$productCategory->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($productCategory);
+
+            $productCategory->setIsRemoved(true);
+
+            foreach ($productCategory->getProducts() as $product) {
+                $product->setIsRemoved(true);
+
+                $basketItems = $product->getBasketItems();
+                foreach ($basketItems as $item) {
+                    $entityManager->remove($item);
+                }
+            }
+
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_product_category_index');
+        return $this->redirectToRoute('admin_product_category_show', ['id' => $productCategory->getId()]);
+    }
+
+    /**
+     * @Route("/activate/{id}", name="admin_product_category_activate", methods={"POST"})
+     */
+    public function activate(Request $request, ProductCategory $productCategory): Response
+    {
+        if ($this->isCsrfTokenValid('activate' . $productCategory->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $productCategory->setIsRemoved(false);
+
+            foreach ($productCategory->getProducts() as $product) {
+                $product->setIsRemoved(false);
+            }
+
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('admin_product_category_show', ['id' => $productCategory->getId()]);
     }
 
     protected function render(string $view, array $parameters = [], ?Response $response = null): Response

@@ -15,12 +15,14 @@
     {% if categories|length > 0 %}
         <div class="row">
             {% for index, category in categories %}
-                {% if (index % 3) is same as(0) and index is not same as(0) %}
-                    </div><div class="row mb-4">
+                {% if not category.isRemoved %}
+                    {% if (index % 3) is same as(0) and index is not same as(0) %}
+                        </div><div class="row mb-4">
+                    {% endif %}
+                    <div class="col mb-4">
+                        {{ include('assets/categoryCard.html.twig', {'category': category}) }}
+                    </div>
                 {% endif %}
-                <div class="col mb-4">
-                    {{ include('assets/categoryCard.html.twig', {'category': category}) }}
-                </div>
             {% endfor %}
         </div>
     {% else %}
