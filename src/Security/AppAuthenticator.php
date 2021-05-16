@@ -117,8 +117,11 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
 
             foreach ($basket as $item) {
                 $product = $productRepository->find($item->productId);
-                $user->addProductToBasket($product, $item->quantity);
-                $this->entityManager->flush();
+
+                if (!$user->hasProductInBasket($product)) {
+                    $user->addProductToBasket($product, $item->quantity);
+                    $this->entityManager->flush();
+                }
             }
 
             UserBasket::removeFromSession($this->session);
