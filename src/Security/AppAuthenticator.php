@@ -2,10 +2,13 @@
 
 namespace App\Security;
 
+use App\Entity\Product;
 use App\Entity\User;
+use App\Entity\UserBasket;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -27,17 +30,30 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
     public const LOGIN_ROUTE = 'app_login';
     public const REDIRECT_ROUTE = 'home';
 
+    private $userProvider;
     private $entityManager;
     private $urlGenerator;
     private $csrfTokenManager;
     private $passwordEncoder;
+    private $security;
+    private $session;
 
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
-    {
+    public function __construct(
+        UserProviderInterface $userProvider,
+        EntityManagerInterface $entityManager,
+        UrlGeneratorInterface $urlGenerator,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        UserPasswordEncoderInterface $passwordEncoder,
+        Security $security,
+        SessionInterface $session
+    ) {
+        $this->userProvider = $userProvider;
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->security = $security;
+        $this->session = $session;
     }
 
     public function supports(Request $request)
@@ -93,6 +109,21 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
+        $user = $this->security->getUser();
+
+        $basket = UserBasket::getBasketFromSession($this->session);
+        if (count($basket) > 0) {
+            $productRepository = $this->entityManager->getRepository(Product::class);
+
+            foreach ($basket as $item) {
+                $product = $productRepository->find($item->productId);
+                $user->addProductToBasket($product, $item->quantity);
+                $this->entityManager->flush();
+            }
+
+            UserBasket::removeFromSession($this->session);
+        }
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }

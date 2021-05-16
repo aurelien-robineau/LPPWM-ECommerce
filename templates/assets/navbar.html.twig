@@ -89,6 +89,12 @@
 	<div class="d-flex align-items-center">
 		{% if not app.user %}
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<a class="text-reset me-3" href="{{ path('basket') }}">
+					<i class="fas fa-shopping-cart"></i>
+					{% if basketLength > 0 %}
+						<span class="badge rounded-pill badge-notification bg-danger">{{ basketLength }}</span>
+					{% endif %}
+				</a>
 				<li class="nav-item">
 					<a class="btn btn-main" href="{{ path('app_login') }}">Connexion</a>
 				</li>

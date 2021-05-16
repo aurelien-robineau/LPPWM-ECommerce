@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Entity\ProductCategory;
+use App\Entity\UserBasket;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -14,6 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProductController extends AbstractController
 {
+	private $session;
+
+	public function __construct(SessionInterface $session)
+	{
+		$this->session = $session;
+	}
+
 	/**
 	 * @Route("/{id}", name="product_show", methods={"GET"})
 	 */
@@ -21,6 +30,7 @@ class ProductController extends AbstractController
 	{
 		return $this->render('product/show.html.twig', [
 			'product' => $product,
+			'isProductInSessionBasket' => UserBasket::sessionContains($this->session, $product)
 		]);
 	}
 
@@ -29,20 +39,28 @@ class ProductController extends AbstractController
 	 */
 	public function addToBasket(Request $request, Product $product): Response
 	{
-		$this->denyAccessUnlessGranted('ROLE_USER');
 		$user = $this->getUser();
 
-		if ($product->getQuantity() !== 0 && !$user->hasProductInBasket($product) && !$product->isRemoved()) {
-			$em = $this->getDoctrine()->getManager();
+		$quantity = (int) $request->request->get('quantity', 1);
 
-			$quantity = (int) $request->request->get('quantity', 1);
-			$user->addProductToBasket($product, $quantity);
-			$em->flush();
+		if (is_null($user)) {
+			if (!UserBasket::sessionContains($this->session, $product)) {
+				UserBasket::addItemToSessionBasket($this->session, [
+					'productId' => $product->getId(),
+					'quantity' => $quantity
+				]);
+			}
+		}
+		else {
+			if ($product->getQuantity() !== 0 && !$user->hasProductInBasket($product) && !$product->isRemoved()) {
+				$em = $this->getDoctrine()->getManager();
+
+				$user->addProductToBasket($product, $quantity);
+				$em->flush();
+			}
 		}
 
-		return $this->render('product/show.html.twig', [
-			'product' => $product,
-		]);
+		return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
 	}
 
 	/**
@@ -50,21 +68,22 @@ class ProductController extends AbstractController
 	 */
 	public function removeFromBasket(Product $product): Response
 	{
-		$this->denyAccessUnlessGranted('ROLE_USER');
-
-		$em = $this->getDoctrine()->getManager();
-
 		$user = $this->getUser();
-		$basketItem = $user->getBasketItemFromProduct($product);
 
-		if (!is_null($basketItem)) {
-			$user->removeItemFromBasket($basketItem);
-			$em->flush();
+		if (!is_null($user)) {
+			$basketItem = $user->getBasketItemFromProduct($product);
+
+			if (!is_null($basketItem)) {
+				$em = $this->getDoctrine()->getManager();
+				$user->removeItemFromBasket($basketItem);
+				$em->flush();
+			}
+		}
+		else {
+			UserBasket::removeProductFromSessionBasket($this->session, $product);
 		}
 
-		return $this->render('product/show.html.twig', [
-			'product' => $product,
-		]);
+		return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
 	}
 
 	public static function getShippingPrice(int $orderPrice): float
@@ -86,6 +105,10 @@ class ProductController extends AbstractController
 		// Always add categories for navbar on render
 		$categoryRepository = $this->getDoctrine()->getRepository(ProductCategory::class);
 		$parameters['categories'] = $categoryRepository->findAll();
+
+		// Always add session basket length
+		$basket = UserBasket::getBasketFromSession($this->session);
+		$parameters['basketLength'] = count($basket);
 
 		return parent::render($view, $parameters, $response);
 	}

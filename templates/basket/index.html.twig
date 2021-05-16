@@ -10,14 +10,24 @@
     <div class="basket">
         <h1 class="title">Mon panier</h1>
 
-        {% if app.user.getBasket|length > 0 %}
-            {% for item in app.user.getBasket %}
-                <div class="row mb-2">
-                    <div class="col col-12">
-                        {{ include('assets/basketItemCard.html.twig', {'item': item}) }}
+        {% if is_granted('ROLE_USER') and app.user.getBasket|length > 0 or not is_granted('ROLE_USER') and sessionBasket|length > 0 %}
+            {% if is_granted('ROLE_USER') %}
+                {% for item in app.user.getBasket %}
+                    <div class="row mb-2">
+                        <div class="col col-12">
+                            {{ include('assets/basketItemCard.html.twig', {'item': item}) }}
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% else %}
+                {% for item in sessionBasket %}
+                    <div class="row mb-2">
+                        <div class="col col-12">
+                            {{ include('assets/basketItemCard.html.twig', {'item': item}) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
 
             <div class="row mb-2 mt-3">
                 <div class="col col-8 col-sm-10">
@@ -51,8 +61,8 @@
         {% endif %}
     </div>
 
-    {% if app.user.getBasket|length > 0 %}
-        {% for item in app.user.getBasket %}
+    {% if is_granted('ROLE_USER') and app.user.getBasket|length > 0 or not is_granted('ROLE_USER') and sessionBasket|length > 0 %}
+        {% for item in is_granted('ROLE_USER') ? app.user.getBasket : sessionBasket %}
             <div
                 class="modal fade"
                 id="modalEditItem{{ item.id }}"
@@ -116,36 +126,65 @@
         {% endfor %}
     {% endif %}
 
-    {% if canMakeOrder %}
-    <div
-        class="modal fade"
-        id="modalConfirm"
-        tabindex="-1"
-        aria-labelledby="modalConfirmLabel"
-        aria-hidden="true"
-	>
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalConfirmLabel">Confirmation d'achat</h5>
-                    <button
-                        type="button"
-                        class="btn-close"
-                        data-mdb-dismiss="modal"
-                        aria-label="Fermer"
-                    ></button>
-                </div>
-                <div class="modal-body">
-                    Vous êtes sur le point d'acheter {{ numberOfProducts|number_format(0, ',', '.') }} article(s) pour le prix de {{ totalPrice|number_format(2, ',', '.') }}€.
-                </div>
-                <div class="modal-footer">
-                    {{ include('basket/_order_basket_form.html.twig', {
-                        totalPrice: totalPrice
-                    }) }}
+    {% if canMakeOrder and is_granted('ROLE_USER') %}
+        <div
+            class="modal fade"
+            id="modalConfirm"
+            tabindex="-1"
+            aria-labelledby="modalConfirmLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalConfirmLabel">Confirmation d'achat</h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-mdb-dismiss="modal"
+                            aria-label="Fermer"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        Vous êtes sur le point d'acheter {{ numberOfProducts|number_format(0, ',', '.') }} article(s) pour le prix de {{ totalPrice|number_format(2, ',', '.') }}€.
+                    </div>
+                    <div class="modal-footer">
+                        {{ include('basket/_order_basket_form.html.twig', {
+                            totalPrice: totalPrice
+                        }) }}
+                    </div>
                 </div>
             </div>
         </div>
-	</div>
+    {% elseif canMakeOrder %}
+        <div
+            class="modal fade"
+            id="modalConfirm"
+            tabindex="-1"
+            aria-labelledby="modalConfirmLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalConfirmLabel">Connexion nécéssaire</h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-mdb-dismiss="modal"
+                            aria-label="Fermer"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        Vous devez être connecté pour passer une commande.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-main" data-mdb-dismiss="modal">Fermer</button>
+                        <a type="button" class="btn btn-main" href="{{ path('app_login') }}">Se connecter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% else %}
         <div
             class="modal fade"
