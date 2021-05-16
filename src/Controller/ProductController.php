@@ -52,11 +52,13 @@ class ProductController extends AbstractController
 			}
 		}
 		else {
-			if ($product->getQuantity() !== 0 && !$user->hasProductInBasket($product) && !$product->isRemoved()) {
-				$em = $this->getDoctrine()->getManager();
+			if ($this->isCsrfTokenValid('add_to_basket' . $product->getId(), $request->request->get('_token'))) {
+				if ($product->getQuantity() !== 0 && !$user->hasProductInBasket($product) && !$product->isRemoved()) {
+					$em = $this->getDoctrine()->getManager();
 
-				$user->addProductToBasket($product, $quantity);
-				$em->flush();
+					$user->addProductToBasket($product, $quantity);
+					$em->flush();
+				}
 			}
 		}
 
@@ -66,17 +68,19 @@ class ProductController extends AbstractController
 	/**
 	 * @Route("/{id}/remove-from-basket", name="remove_product_from_basket", methods={"POST"})
 	 */
-	public function removeFromBasket(Product $product): Response
+	public function removeFromBasket(Request $request, Product $product): Response
 	{
 		$user = $this->getUser();
 
 		if (!is_null($user)) {
-			$basketItem = $user->getBasketItemFromProduct($product);
+			if ($this->isCsrfTokenValid('remove_from_basket' . $product->getId(), $request->request->get('_token'))) {
+				$basketItem = $user->getBasketItemFromProduct($product);
 
-			if (!is_null($basketItem)) {
-				$em = $this->getDoctrine()->getManager();
-				$user->removeItemFromBasket($basketItem);
-				$em->flush();
+				if (!is_null($basketItem)) {
+					$em = $this->getDoctrine()->getManager();
+					$user->removeItemFromBasket($basketItem);
+					$em->flush();
+				}
 			}
 		}
 		else {

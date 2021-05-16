@@ -78,14 +78,16 @@ class BasketController extends AbstractController
     public function editItem(Request $request, UserBasket $basketItem): Response
     {
         $user = $this->getUser();
-        
-        $quantity = (int) $request->request->get('quantity', 1);
 
-        if ($basketItem->getUser()->getId() === $user->getId()) {
-            $em = $this->getDoctrine()->getManager();
+        if ($this->isCsrfTokenValid('basket_edit' . $user->getId(), $request->request->get('_token'))) {
+            $quantity = (int) $request->request->get('quantity', 1);
 
-            $basketItem->setQuantity((int) $quantity);
-            $em->flush();
+            if ($basketItem->getUser()->getId() === $user->getId()) {
+                $em = $this->getDoctrine()->getManager();
+
+                $basketItem->setQuantity((int) $quantity);
+                $em->flush();
+            }
         }
 
         return $this->redirectToRoute('basket');
@@ -108,15 +110,17 @@ class BasketController extends AbstractController
     /**
      * @Route("/remove-item/{id}", name="basket_remove_item", methods={"POST"})
      */
-    public function removeItem(UserBasket $basketItem): Response
+    public function removeItem(Request $request, UserBasket $basketItem): Response
     {
         $user = $this->getUser();
 
-        if ($basketItem->getUser()->getId() === $user->getId()) {
-            $em = $this->getDoctrine()->getManager();
+        if ($this->isCsrfTokenValid('basket_remove_item' . $user->getId(), $request->request->get('_token'))) {
+            if ($basketItem->getUser()->getId() === $user->getId()) {
+                $em = $this->getDoctrine()->getManager();
 
-            $em->remove($basketItem);
-            $em->flush();
+                $em->remove($basketItem);
+                $em->flush();
+            }
         }
 
         return $this->redirectToRoute('basket');

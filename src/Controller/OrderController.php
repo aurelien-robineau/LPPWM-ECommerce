@@ -8,6 +8,7 @@ use App\Entity\ProductCategory;
 use App\Entity\UserBasket;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,42 +50,44 @@ class OrderController extends AbstractController
     /**
      * @Route("/new", name="order_new", methods={"POST"})
      */
-    public function new(): Response
+    public function new(Request $request): Response
     {
         $user = $this->getUser();
 
-        if (count($user->getBasket()) === 0)
+        if ($this->isCsrfTokenValid('order_basket' . $user->getId(), $request->request->get('_token'))) {
+            if (count($user->getBasket()) === 0)
             return $this->redirectToRoute('basket');
 
-        $em = $this->getDoctrine()->getManager();
-        $order = new Order();
+            $em = $this->getDoctrine()->getManager();
+            $order = new Order();
 
-        $productsPrice = 0.00;
-        foreach ($user->getBasket() as $item) {
-            $product = $item->getProduct();
+            $productsPrice = 0.00;
+            foreach ($user->getBasket() as $item) {
+                $product = $item->getProduct();
 
-            if ($product->getQuantity() > 0 && $product->getQuantity() >= $item->getQuantity()) {
-                $product->setQuantity($product->getQuantity() - $item->getQuantity());
-                $orderItem = new OrderItem();
-                $orderItem->setProduct($product);
-                $orderItem->setUnitPrice($product->getPrice());
-                $orderItem->setQuantity($item->getQuantity());
+                if ($product->getQuantity() > 0 && $product->getQuantity() >= $item->getQuantity()) {
+                    $product->setQuantity($product->getQuantity() - $item->getQuantity());
+                    $orderItem = new OrderItem();
+                    $orderItem->setProduct($product);
+                    $orderItem->setUnitPrice($product->getPrice());
+                    $orderItem->setQuantity($item->getQuantity());
 
-                $order->addItem($orderItem);
+                    $order->addItem($orderItem);
 
-                $productsPrice += $product->getPrice() * $item->getQuantity();
+                    $productsPrice += $product->getPrice() * $item->getQuantity();
+                }
+
+                $em->remove($item);
             }
 
-            $em->remove($item);
+            $order->setReference(strtoupper(uniqid()));
+            $order->setShippingPrice(ProductController::getShippingPrice($productsPrice));
+            $order->setDate(new DateTime());
+
+            $user->addOrder($order);
+
+            $em->flush();
         }
-
-        $order->setReference(strtoupper(uniqid()));
-        $order->setShippingPrice(ProductController::getShippingPrice($productsPrice));
-        $order->setDate(new DateTime());
-
-        $user->addOrder($order);
-
-        $em->flush();
 
         return $this->redirectToRoute('order_show', ['id' => $order->getId()]);
     }

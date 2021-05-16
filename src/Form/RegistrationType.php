@@ -17,7 +17,6 @@ class RegistrationType extends AbstractType
             ->add('address')
             ->add('city')
             ->add('postalCode')
-            ->add('username')
             ->add('password', PasswordType::class)
             ->add('confirm_password', PasswordType::class)
         ;
