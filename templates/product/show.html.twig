@@ -28,7 +28,7 @@
 				<div class="d-grid d-sm-block gap-2">
 					{% if product.quantity is not same as(0) and not product.isRemoved %}
 						{% if not is_granted('ROLE_ADMIN') %}
-							{% if app.user and not app.user.hasProductInBasket(product) or not isProductInSessionBasket %}
+							{% if app.user and not app.user.hasProductInBasket(product) or not app.user and not isProductInSessionBasket %}
 								{{ include('product/_add_to_basket_form.html.twig') }}
 							{% else %}
 								{{ include('product/_remove_from_basket_form.html.twig') }}
