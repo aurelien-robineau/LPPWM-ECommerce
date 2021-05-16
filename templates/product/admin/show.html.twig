@@ -40,7 +40,11 @@
                 <tr>
                     <th>Statut</th>
                     <td>
-                        {{ product.isRemoved ? 'Retiré du catalogue' : 'Actif' }}
+                        {% if not product.isRemoved %}
+                            <span class="badge rounded-pill bg-success">Actif</span>
+                        {% else %}
+                            <span class="badge rounded-pill bg-danger">Retiré du catalogue</span>
+                        {% endif %}
                     </td>
                 </tr>
             </tbody>

@@ -23,7 +23,13 @@
                 </tr>
                 <tr>
                     <th>Statut</th>
-                    <td>{{ product_category.isRemoved ? 'Désactivée' : 'Active' }}</td>
+                    <td>
+                        {% if not product_category.isRemoved %}
+                            <span class="badge rounded-pill bg-success">Activée</span>
+                        {% else %}
+                            <span class="badge rounded-pill bg-danger">Désactivée</span>
+                        {% endif %}
+                    </td>
                 </tr>
             </tbody>
         </table>

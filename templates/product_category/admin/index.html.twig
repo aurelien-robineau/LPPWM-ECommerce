@@ -22,7 +22,13 @@
                     <td>{{ product_category.id }}</td>
                     <td>{{ product_category.label }}</td>
                     <td>{{ product_category.image }}</td>
-                    <td>{{ product_category.isRemoved ? 'Désactivée' : 'Active' }}</td>
+                    <td>
+                        {% if not product_category.isRemoved %}
+                            <span class="badge rounded-pill bg-success">Activée</span>
+                        {% else %}
+                            <span class="badge rounded-pill bg-danger">Désactivée</span>
+                        {% endif %}
+                    </td>
                     <td>
                         <a href="{{ path('admin_product_category_show', {'id': product_category.id}) }}">Voir</a>
                         <a href="{{ path('admin_product_category_edit', {'id': product_category.id}) }}">Modifier</a>

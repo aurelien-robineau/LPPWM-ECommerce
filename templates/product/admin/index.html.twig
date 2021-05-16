@@ -33,7 +33,11 @@
                         </a>
                     </td>
                     <td>
-                        {{ product.isRemoved ? 'Retiré du catalogue' : 'Actif' }}
+                        {% if not product.isRemoved %}
+                            <span class="badge rounded-pill bg-success">Actif</span>
+                        {% else %}
+                            <span class="badge rounded-pill bg-danger">Retiré du catalogue</span>
+                        {% endif %}
                     </td>
                     <td>
                         <a href="{{ path('admin_product_show', {'id': product.id}) }}">Voir</a>
