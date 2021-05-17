@@ -50,6 +50,7 @@ class BasketController extends AbstractController
                     }
                 }
                 else {
+                    unset($sessionBasket[$i]);
                     UserBasket::removeItemFromSessionBasket($this->session, $i);
                 }
             }
