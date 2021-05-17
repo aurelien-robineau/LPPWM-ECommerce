@@ -11,18 +11,18 @@
 	</div>
 	<div class="card-body">
 		<h5 class="card-title">{{ product.title }}</h5>
-			<p class="card-text">
-				{{ product.price|number_format(2, ',', '.') }}€
+		<p class="card-text">
+			{{ product.price|number_format(2, ',', '.') }}€
 
-				<small class="d-block">
-					{% if product.quantity > 15 and not product.isRemoved %}
-						<span class="in-stock">En stock</span>
-					{% elseif product.quantity > 0 and not product.isRemoved %}
-						<span class="last-items">Plus que {{ product.quantity }} en stock</span>
-					{% else %}
-						<span class="unavailable">Indisponible</span>
-					{% endif %}
-				</small>
-			</div>
+			<small class="d-block">
+				{% if product.quantity > 15 and not product.isRemoved %}
+					<span class="in-stock">En stock</span>
+				{% elseif product.quantity > 0 and not product.isRemoved %}
+					<span class="last-items">Plus que {{ product.quantity }} en stock</span>
+				{% else %}
+					<span class="unavailable">Indisponible</span>
+				{% endif %}
+			</small>
+		</p>
 	</div>
 </div>

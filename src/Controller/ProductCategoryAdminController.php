@@ -45,6 +45,7 @@ class ProductCategoryAdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $productCategory->setIsRemoved(false);
             $entityManager->persist($productCategory);
             $entityManager->flush();
 

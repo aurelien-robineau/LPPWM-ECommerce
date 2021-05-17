@@ -29,7 +29,7 @@ class Product
     private $image;
 
     /**
-     * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @ORM\Column(type="decimal", precision=7, scale=2)
      */
     private $price;
 
