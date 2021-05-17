@@ -39,13 +39,18 @@ class BasketController extends AbstractController
             $productRepository = $this->getDoctrine()->getRepository(Product::class);
             foreach ($sessionBasket as $i => $item) {
                 $product =  $productRepository->find($item->productId);
-                $item->id = $i;
-                $item->product = $product;
-                $productsPrice += $product->getPrice() * $item->quantity;
-                $numberOfProducts += $item->quantity;
+                if (!is_null($product) && !$product->isRemoved()) {
+                    $item->id = $i;
+                    $item->product = $product;
+                    $productsPrice += $product->getPrice() * $item->quantity;
+                    $numberOfProducts += $item->quantity;
 
-                if ($product->getQuantity() === 0 || $product->getQuantity() < $item->quantity) {
-                    $canMakeOrder = false;
+                    if ($product->getQuantity() === 0 || $product->getQuantity() < $item->quantity) {
+                        $canMakeOrder = false;
+                    }
+                }
+                else {
+                    UserBasket::removeItemFromSessionBasket($this->session, $i);
                 }
             }
         } else {
