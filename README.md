@@ -7,7 +7,8 @@ Deux compte administrateurs sont créés :
 * Nom d'utilisateur : admin2 | Mot de passe : admin2l18
 
 Un compte utilisateur est créé :
-* Nom d'utilisateur : aurerob| Mot de passe : aurerobl18
+* Nom d'utilisateur : aurelien| Mot de passe : aurelien
+Ce compte possède déjà une commande et un produit dans son panier.
 
 ## Fonctionnement
 ### Comptes
